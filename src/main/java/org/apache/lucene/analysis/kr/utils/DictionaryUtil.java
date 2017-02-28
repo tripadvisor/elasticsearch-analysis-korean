@@ -32,7 +32,7 @@ import org.apache.lucene.analysis.kr.morph.WordEntry;
 
 public class DictionaryUtil {
 	
-	private static Supplier<Trie<String,WordEntry>> DICTIONARY = Suppliers.memoize(new Supplier<Trie<String, WordEntry>>() {
+	private static Supplier<Trie<String, WordEntry>> DICTIONARY = Suppliers.memoize(new Supplier<Trie<String, WordEntry>>() {
         @Override
         public Trie<String, WordEntry> get() {
             try {
@@ -46,44 +46,28 @@ public class DictionaryUtil {
 	private static Supplier<Map<String, String>> JOSAS = Suppliers.memoize(new Supplier<Map<String, String>>() {
         @Override
         public Map<String, String> get() {
-            try {
-                return readDict(KoreanEnv.FILE_JOSA);
-            } catch (MorphException e) {
-                throw new RuntimeException("Failed to initialize JOSA dictionary.", e);
-            }
+            return readDict(KoreanEnv.FILE_JOSA);
         }
     });
 	
 	private static Supplier<Map<String, String>> EOMIS = Suppliers.memoize(new Supplier<Map<String, String>>() {
         @Override
         public Map<String, String> get() {
-            try {
-                return readDict(KoreanEnv.FILE_EOMI);
-            } catch (MorphException e) {
-                throw new RuntimeException("Failed to initialize EOMI dictionary.", e);
-            }
+            return readDict(KoreanEnv.FILE_EOMI);
         }
     });
 
     private static Supplier<Map<String, String>> PREFIXS = Suppliers.memoize(new Supplier<Map<String, String>>() {
         @Override
         public Map<String, String> get() {
-            try {
-                return readDict(KoreanEnv.FILE_PREFIX);
-            } catch (MorphException e) {
-                throw new RuntimeException("Failed to initialize PREFIX dictionary.", e);
-            }
+            return readDict(KoreanEnv.FILE_PREFIX);
         }
     });
 
     private static Supplier<Map<String, String>> SUFFIXS = Suppliers.memoize(new Supplier<Map<String, String>>() {
         @Override
         public Map<String, String> get() {
-            try {
-                return readDict(KoreanEnv.FILE_SUFFIX);
-            } catch (MorphException e) {
-                throw new RuntimeException("Failed to initialize SUFFIX dictionary.", e);
-            }
+            return readDict(KoreanEnv.FILE_SUFFIX);
         }
     });
 
@@ -118,7 +102,7 @@ public class DictionaryUtil {
             List<String> lines;
 
             try {
-                lines = FileUtil.readLines(KoreanEnv.getInstance().getValue(KoreanEnv.FILE_CJ),"UTF-8");
+                lines = FileUtil.readLines(KoreanEnv.getInstance().getValue(KoreanEnv.FILE_CJ), "UTF-8");
             } catch (Exception e) {
                 throw new RuntimeException("Failed to initialize CJWORDS dictionary.", e);
             }
@@ -312,12 +296,12 @@ public class DictionaryUtil {
 	 * @param type	1: josa, 2: eomi
 	 * @throws MorphException
 	 */
-	private static Map<String, String> readDict(String dic) throws MorphException {
+	private static Map<String, String> readDict(String dic) {
 		
-		String path = KoreanEnv.getInstance().getValue(dic);
-        HashMap<String, String> map = new HashMap<String, String>();
+		try {
+            String path = KoreanEnv.getInstance().getValue(dic);
+            HashMap<String, String> map = new HashMap<String, String>();
 
-        try {
 			List<String> line = FileUtil.readLines(path,"UTF-8");
 			for(int i=1;i<line.size();i++) {
 				map.put(line.get(i).trim(), line.get(i));
@@ -326,7 +310,7 @@ public class DictionaryUtil {
             return Collections.unmodifiableMap(map);
 
 		} catch (Exception e) {
- 		    throw new MorphException(e.getMessage(),e);
+ 		    throw new RuntimeException(String.format("Failed to initialize %s dictionary ", dic), e);
 		}
 	}
 	
