@@ -290,12 +290,6 @@ public class DictionaryUtil {
 		
 	}
 	
-	/**
-	 * 
-	 * @param map
-	 * @param type	1: josa, 2: eomi
-	 * @throws MorphException
-	 */
 	private static Map<String, String> readDict(String dic) {
 		
 		try {
