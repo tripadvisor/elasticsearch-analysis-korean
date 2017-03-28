@@ -24,10 +24,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
 
-public class Memoizer {
+public final class Memoizer {
 
     public static <T> Supplier<T> memoize(Supplier<T> delegate) {
-        AtomicReference<T> value = new AtomicReference<>();
+        final AtomicReference<T> value = new AtomicReference<>();
 
         return () -> {
             T val = value.get();

@@ -44,9 +44,9 @@ public class DictionaryUtil {
 	
 	private static Supplier<Map<String, String>> EOMIS = Memoizer.memoize(() -> readDict(KoreanEnv.FILE_EOMI));
 
-    private static Supplier<Map<String, String>> PREFIXS = Memoizer.memoize(() -> readDict(KoreanEnv.FILE_PREFIX));
+    private static Supplier<Map<String, String>> PREFIXES = Memoizer.memoize(() -> readDict(KoreanEnv.FILE_PREFIX));
 
-    private static Supplier<Map<String, String>> SUFFIXS = Memoizer.memoize(() -> readDict(KoreanEnv.FILE_SUFFIX));
+    private static Supplier<Map<String, String>> SUFFIXES = Memoizer.memoize(() -> readDict(KoreanEnv.FILE_SUFFIX));
 
 	private static Supplier<Map<String, WordEntry>> UNCOMPOUNDS = Memoizer.memoize(() -> {
 		Map<String, WordEntry> uncompounds = new HashMap<>();
@@ -232,11 +232,11 @@ public class DictionaryUtil {
 	}
 	
 	public static boolean existPrefix(String str)  throws MorphException {
-        return PREFIXS.get().get(str) != null;
+        return PREFIXES.get().get(str) != null;
 	}
 	
 	public static boolean existSuffix(String str)  throws MorphException {
-        return SUFFIXS.get().get(str) != null;
+        return SUFFIXES.get().get(str) != null;
 	}
 	
 	/**
